@@ -164,6 +164,7 @@
 	status = "okay";
 
 	mtd-mac-address = <&uboot 0x1fc00>;
+	mtd-mac-address-increment = <2>;
 	pll-data = <0x03000101 0x00000101 0x00001616>;
 
 	fixed-link {

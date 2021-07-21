@@ -145,7 +145,7 @@ mac80211_hostapd_setup_base() {
 	[ "$auto_channel" = 0 ] && [ -z "$channel_list" ] && \
 		channel_list="$channel"
 
-	set_default noscan 0
+	set_default noscan 1
 
 	[ "$noscan" -gt 0 ] && hostapd_noscan=1
 	[ "$tx_burst" = 0 ] && tx_burst=
