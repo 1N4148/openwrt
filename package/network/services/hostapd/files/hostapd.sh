@@ -124,7 +124,7 @@ hostapd_prepare_device_config() {
 	set_default doth 1
 	set_default legacy_rates 0
 	set_default airtime_mode 0
-	set_default cell_density 0
+	set_default cell_density 3
 
 	[ -n "$country" ] && {
 		append base_cfg "country_code=$country" "$N"
@@ -506,6 +506,8 @@ hostapd_set_bss_options() {
 	set_default multi_ap 0
 	set_default airtime_bss_weight 0
 	set_default airtime_bss_limit 0
+	set_default ieee80211w 0
+	set_default auth_cache 0
 
 	append bss_conf "ctrl_interface=/var/run/hostapd"
 	if [ "$isolate" -gt 0 ]; then
@@ -707,7 +709,10 @@ hostapd_set_bss_options() {
 	}
 
 	json_get_vars time_advertisement time_zone wnm_sleep_mode wnm_sleep_mode_no_keys bss_transition
-	set_default bss_transition 0
+	set_default bss_transition 1
+	set_default time_advertisement 2
+	set_default time_zone "CET-1CEST,M3.5.0,M10.5.0/3"
+	set_default bss_transition 1
 	set_default wnm_sleep_mode 0
 	set_default wnm_sleep_mode_no_keys 0
 
@@ -720,7 +725,7 @@ hostapd_set_bss_options() {
 	[ "$bss_transition" -eq "1" ] && append bss_conf "bss_transition=1" "$N"
 
 	json_get_vars ieee80211k rrm_neighbor_report rrm_beacon_report
-	set_default ieee80211k 0
+	set_default ieee80211k 1
 	if [ "$ieee80211k" -eq "1" ]; then
 		set_default rrm_neighbor_report 1
 		set_default rrm_beacon_report 1
@@ -1107,6 +1112,8 @@ wpa_supplicant_add_network() {
 		basic_rate mcast_rate \
 		ieee80211w ieee80211r \
 		multi_ap
+		
+	set_default mcast_rate 24000	
 
 	case "$auth_type" in
 		sae|owe|eap192|eap-eap192)
